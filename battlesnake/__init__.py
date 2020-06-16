@@ -1,5 +1,5 @@
 from flask import Flask, request
-from Snake import Snake
+from battlesnake.Snake import Snake
 from typing import Dict
 
 # init Flask app
