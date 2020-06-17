@@ -6,5 +6,5 @@ setup(
     author='Thomas-Boi',
     packages=[ 'battlesnake' ],
     include_package_data=True,
-    install_requires=['pytest', "flask"]
+    install_requires=['pytest', "flask", "redis"]
 )
