@@ -1,4 +1,4 @@
-from . import get_redis
+from battlesnake import get_redis
 import pickle
 from flask import Blueprint, request, g
 
@@ -14,5 +14,10 @@ def end_game():
     :return: empty string "".
     """
     game_id = request.get_json()["game"]["id"]
-    get_redis.get_redis().delete(game_id)
-    return ""
+    deleted_amount = get_redis.get_redis().delete(game_id)
+    response = ""
+    if deleted_amount == 1:
+        response = f"Deleted snake with id: {game_id}"
+    else:
+        response = f"No snake was found with id: {game_id}."
+    return response
