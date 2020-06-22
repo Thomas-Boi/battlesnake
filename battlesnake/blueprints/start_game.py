@@ -1,6 +1,6 @@
-from flask import Blueprint, request
-from battlesnake.Snake import Snake
-from battlesnake import get_redis
+from flask import Blueprint, request, make_response
+from battlesnake.utils.Snake import Snake
+from battlesnake.utils import get_redis
 import pickle
 
 bp = Blueprint("start_game", __name__)
@@ -15,19 +15,33 @@ def start_game():
     :return: empty string "".
     """
     try:
-        game_id = request.get_json()["game"]["id"]
+        request_ = request.get_json()
+        game_id = request_["game"]["id"]
+        board = request_["board"]
     except TypeError:
         # request didn't have correct json data
-        return "Request didn't have the expected data and was ignored."
+        return make_response(
+            "Request didn't have the expected data and was ignored.",
+            400
+        )
+    except KeyError as err:
+        return make_response(
+            f"Request need to have the key: {err}.",
+            400
+        )
 
     redis_client = get_redis.get_redis()
-    response = ""
+    response_txt = ""
+    response_code = 200
 
     # test if there are any snake
     if redis_client.get(game_id) is None:
         # most cases should go here. Create a new snake and track it.
-        redis_client.set(game_id, pickle.dumps(Snake()))
-        response = f"New snake initialized with id: {game_id}"
+        pickled_snake = pickle.dumps(Snake(board))
+        redis_client.set(game_id, pickled_snake)
+        response_txt = f"New snake initialized with id: {game_id}"
     else:
-        response = f"Start request invalid. There's already a snake with id: {game_id}."
-    return response
+        response_txt = f"Start request invalid. There's already a snake with id: {game_id}."
+        response_code = 400
+
+    return make_response(response_txt, response_code)

@@ -1,6 +1,7 @@
 import pickle
-from battlesnake import get_redis
-from flask import Blueprint, request, jsonify
+from battlesnake.utils import get_redis
+from flask import Blueprint, request, jsonify, make_response
+import traceback
 
 bp = Blueprint("move", __name__)
 
@@ -15,13 +16,24 @@ def move():
     try:
         redis_client = get_redis.get_redis()
         request_ = request.get_json()
-        board = request_["board"]
-        game = request_["game"]
-        snake_info = request_["you"]
 
-        my_snake = pickle.loads(redis_client.get(game["id"]))
-        next_move = my_snake.decide_next_move(board, snake_info)
+        my_snake = pickle.loads(
+            redis_client.get(request_["game"]["id"])
+        )
+        next_move = my_snake.decide_next_move(
+            request_["board"], snake_info=request_["you"]
+        )
+
         return jsonify({"move": next_move})
     except AttributeError:
-        print("move(): Can't find a snake with that game id")
-        return ""
+        return make_response(
+            "Request didn't have the expected data and was ignored.",
+            400
+        )
+    except Exception as e:
+        traceback.print_tb(e.__traceback__, limit=5)
+        print(e)
+        return make_response(
+            jsonify({"error": "An error has occurred. Please let the owner of this snake know."}),
+            500
+        )
