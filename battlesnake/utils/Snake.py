@@ -51,7 +51,7 @@ class Snake:
         self.health = snake_info["health"]
 
         all_snakes = board["snakes"]
-        # remove my snake from this list
+        # remove my snake
         all_snakes.remove(snake_info)
         self.other_snakes = all_snakes
         self.food = board["food"]

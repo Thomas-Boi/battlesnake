@@ -1,5 +1,6 @@
 from flask import g
 from redis import Redis
+import os
 
 
 def get_redis() -> Redis:
@@ -10,5 +11,7 @@ def get_redis() -> Redis:
     :return: a redis client.
     """
     if "redis" not in g:
-        g.redis = Redis()
+        host = os.getenv("REDIS_HOST")
+        port = os.getenv("REDIS_PORT")
+        g.redis = Redis(host=host, port=port)
     return g.redis
