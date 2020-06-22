@@ -1,0 +1,14 @@
+MANIFEST.in
+README.md
+setup.py
+battlesnake/Snake.py
+battlesnake/__init__.py
+battlesnake/end_game.py
+battlesnake/get_redis.py
+battlesnake/get_snake_info.py
+battlesnake/start_game.py
+battlesnake.egg-info/PKG-INFO
+battlesnake.egg-info/SOURCES.txt
+battlesnake.egg-info/dependency_links.txt
+battlesnake.egg-info/requires.txt
+battlesnake.egg-info/top_level.txt
