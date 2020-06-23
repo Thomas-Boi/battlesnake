@@ -1,6 +1,6 @@
 atomicwrites==1.4.0
 attrs==19.3.0
--e git+https://github.com/Thomas-Boi/battlesnake.git@3fb5c9adfd43bd1017f77b696d2d005ccfd8f4f9#egg=battlesnake
+-e git+https://github.com/Thomas-Boi/battlesnake.git@db8cc7899b0ebe820d491edd22347419e8a4541c#egg=battlesnake
 click==7.1.2
 colorama==0.4.3
 Flask==1.1.2
@@ -16,8 +16,10 @@ pluggy==0.13.1
 py==1.8.2
 pyparsing==2.4.7
 pytest==5.4.3
+python-dotenv==0.13.0
 redis==3.5.3
 six==1.15.0
 SQLAlchemy==1.3.17
+waitress==1.4.4
 wcwidth==0.2.4
 Werkzeug==1.0.1
