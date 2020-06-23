@@ -7,7 +7,9 @@ from urllib.parse import urlparse
 def get_redis() -> Redis:
     """
     Get a Redis connection. If one is not available in the
-    request, create one.
+    request, create one. This function checks for the
+    env variable for production mode. If none is found,
+    use the dev env variable.
     :precondition: the redis server must be live.
     :return: a redis client.
     """
@@ -20,7 +22,6 @@ def get_redis() -> Redis:
             g.redis = Redis(host=host, port=port)
         else:
             parsed_url = urlparse(url)
-            g.redis = Redis(host=parsed_url.host, port=parsed_url.port,
-                            username=parsed_url.username,
+            g.redis = Redis(host=parsed_url.hostname, port=parsed_url.port,
                             password=parsed_url.password)
     return g.redis
