@@ -1,1 +1,1 @@
-web: waitress-serve --call battlesnake:create_app --port=$PORT
+web: waitress-serve --call --port=$PORT battlesnake:create_app
