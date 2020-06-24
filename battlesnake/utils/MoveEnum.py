@@ -9,3 +9,4 @@ class Move(Enum):
     DOWN = "down"
     LEFT = "left"
     RIGHT = 'right'
+    DEFAULT = "up"
